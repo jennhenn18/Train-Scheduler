@@ -14,7 +14,7 @@
   //create variable for access Firebase
   var database = firebase.database();
 
-// create an onclick function to adding a new train
+// create an onclick function to adding a new train input
 
 $('#add-train-btn').on('click', function(event) {
     event.preventDefault();
@@ -24,12 +24,6 @@ $('#add-train-btn').on('click', function(event) {
     var trainDestination = $('#destination-input').val().trim();
     var firstTrainTime = $('#first-train-input').val().trim();
     var trainFrequency = $('#frequency-input').val().trim();
-
-    // clear the form
-    $('#train-name-input').val('');
-    $('#destination-input').val('');
-    $('#first-train-input').val('');
-    $('#frequency-input').val('');
 
     // create local "temporary" object for holding the train data
     var newTrain = {
@@ -42,17 +36,45 @@ $('#add-train-btn').on('click', function(event) {
     //store information in Firebase
     database.ref().push(newTrain);
 
-    //display information using Firebase
+    // clear the form
+    $('#train-name-input').val('');
+    $('#destination-input').val('');
+    $('#first-train-input').val('');
+    $('#frequency-input').val('');
 
-    
+});
 
 
+    // create a Firebase event that listens and stores and displays information as a child
+    database.ref().on('child_added', function(childSnapshot) {
+        
+        //store child information in a variable
+        var newTrain = childSnapshot.val().name;
+        var trainDestination = childSnapshot.val().destination;
+        var firstTrainTime = childSnapshot.val().firstTrain;
+        var trainFrequency = childSnapshot.val().frequency;
+
+        // calculate next arrival
+        var nextTrainArrival;
+
+        // calculate minutes away
+        var trainMinAway;
+
+        // create new row for train data
+        var newRow = $('<tr>').append(
+            $('<td>').text(newTrain),
+            $('<td>').text(trainDestination),
+            $('<td>').text(trainFrequency),
+            $('<td>').text(nextTrainArrival),
+            $('<td>').text(trainMinAway)
+        );
+
+        // append the new row to the table
+        $('#train-table > tbody').append(newRow);
+});
 
 
-
-
-})
-
+//display information using Firebase
 
 
 // ================== BACKLOG =============
