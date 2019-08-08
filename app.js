@@ -73,23 +73,14 @@ $('#add-train-btn').on('click', function(event) {
 
     
         // create new row for train data
-        var newRow = $('<tr>');
-
-        //append data
-        newRow.append($('<td>').text(newTrain1));
-        newRow.append($('<td>').text(trainDestination1));
-        newRow.append($('<td>').text(trainFrequency1));
-        newRow.append($('<td>').text(nextTrainArrival));
-        newRow.append($('<td>').text(trainMinAway + ' mins'));
+        var newRow = $('<tr>').append(
+            $('<td>').text(newTrain1),
+            $('<td>').text(trainDestination1),
+            $('<td>').text(trainFrequency1),
+            $('<td>').text(nextTrainArrival),
+            $('<td>').text(trainMinAway + ' mins'),
+        );
 
         // append the new row to the table
         $('#train-table > tbody').append(newRow);
 });
-
-
-//display information using Firebase
-
-
-// ================== BACKLOG =============
-
-// add a trash can icon that removes a talbe row and the data stored from Firebase
